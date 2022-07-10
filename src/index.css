@@ -15,3 +15,34 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: Poppins_Medium;
+    src: url("./assets/Poppins/Poppins-Medium.ttf");
+  }
+  @font-face {
+    font-family: Poppins_Regular;
+    src: url("./assets/Poppins/Poppins-Regular.ttf");
+  }
+  @font-face {
+    font-family: Poppins_Light;
+    src: url("./assets/Poppins/Poppins-Light.ttf");
+  }
+  @font-face {
+    font-family: Poppins_SemiBold;
+    src: url("./assets/Poppins/Poppins-SemiBold.ttf");
+  }
+  @font-face {
+    font-family: Jarkata_Medium;
+    src: url("./assets/Plus_Jakarta_Sans/static/PlusJarkataSans-Medium.ttf");
+  }
+  @font-face {
+    font-family: Jarkata_SemiBold;
+    src: url("./assets/Plus_Jakarta_Sans/static/PlusJarkataSans-SemiBold.ttf");
+  }
+  @font-face {
+    font-family: Jarkata_Regular;
+    src: url("./assets/Plus_Jakarta_Sans/static/PlusJarkataSans-Regular.ttf");
+  }
+}

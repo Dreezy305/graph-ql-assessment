@@ -16,6 +16,7 @@ function App() {
           name="search-bar"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
+          placeholder="Search"
           className="rounded-md w-full mx-auto border-solid bg-[#F2F2F2] py-3 px-3 outline-none shadow-none"
         />
         <Glass className="absolute top-12 right-4" />
@@ -55,7 +56,9 @@ function App() {
     return (
       <>
         <div className="w-36 h-11 lg:flex lg:flex-row lg:items-center lg:justify-between rounded-md bg-[#0F1642] px-4 mt-8 cursor-pointer py-4 text-center">
-          <h6 className="font-medium text-white text-sm">Tue,2nd-2022 </h6>
+          <h6 className="font-medium text-white text-sm font-PoppinsBlack">
+            Tue,2nd-2022{" "}
+          </h6>
         </div>
         <div className="bg-white w-1/3 rounded-xl shadow-lg shadow-indigo-500/40 py-7 mt-4 border-solid border-black">
           <div className="flex flex-row px-8 space-x-8">
