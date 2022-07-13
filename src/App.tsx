@@ -37,7 +37,7 @@ function App() {
           name="search-bar"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          placeholder="Search"
+          placeholder="Search by author name"
           className="rounded-md w-full mx-auto border-solid bg-[#F2F2F2] py-3 px-3 outline-none shadow-none font-Poppins_Regular"
         />
         <Glass className="absolute top-12 right-4" />
@@ -52,17 +52,19 @@ function App() {
           <option value="" disabled selected hidden>
             Types
           </option>
-          <option value={"male"}>Male</option>
-          <option value={"female"}>Female</option>
+          <option value={"Horror"}>Horror</option>
+          <option value={"Drama"}>Drama</option>
+          <option value={"Adventure"}>Adventure</option>
+          <option value={"Magic"}>Magic</option>
+          <option value={"Crime"}>Crime</option>
         </select>
         <select className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium">
           <option value="" disabled selected hidden>
-            Status
+            Priority
           </option>
-          <option value={"active"}>Urgent</option>
-          <option value={"inactive"}>High</option>
-          <option value="low">Low</option>
-          <option value={"medium"}>Medium</option>
+          <option value={"High"}>High</option>
+          <option value="Low">Low</option>
+          <option value={"Medium"}>Medium</option>
         </select>
         <select className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium">
           <option value="" disabled selected hidden>
@@ -118,7 +120,17 @@ function App() {
                         <span className="italic font-Poppins_Regular">
                           Priority:
                         </span>
-                        <span className="font-Poppins_Regular">
+                        <span
+                          className={`font-Poppins_Regular ${
+                            i.priority === "Low"
+                              ? "text-[#ef4444]"
+                              : i.priority === "Medium"
+                              ? "text-[#fb923c]"
+                              : i.priority === "High"
+                              ? "text-[#15803d]"
+                              : "text-blue-400"
+                          }`}
+                        >
                           {i.priority}
                         </span>
                       </div>
@@ -132,7 +144,7 @@ function App() {
     );
   };
   return (
-    <div className="container mx-auto lg:mx-auto">
+    <div className="container mx-auto lg:mx-auto pb-7">
       {searchBar()}
       <div className="w-24 h-11 lg:flex lg:flex-row lg:items-center lg:justify-between rounded-md bg-[#0F1642] px-4 mt-8 cursor-pointer py-4">
         <Funnel fill="#fff" className="cursor-pointer" />
