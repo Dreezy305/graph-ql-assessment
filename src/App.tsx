@@ -5,10 +5,14 @@ import { useQuery, gql } from "@apollo/client";
 import { ReactComponent as Glass } from "./assets/glass.svg";
 import { ReactComponent as Funnel } from "./assets/funnel.svg";
 import UserImg from "./assets/userImg.png";
+import Priority from "./components/Priority";
+import Types from "./components/Types";
 
 function App() {
   const [filter, setFilter] = React.useState("");
-  const [books, setBooks] = React.useState<any>();
+  const [priority, setPriority] = React.useState<string>("");
+  const [types, setTypes] = React.useState<string>("");
+
   const GET_BOOKS = gql`
     query {
       books {
@@ -48,7 +52,15 @@ function App() {
   const filterSelectors = () => {
     return (
       <div className="flex flex-row space-x-7 items-center mt-8">
-        <select className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium">
+        <Types />
+        {/* <select
+          className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium"
+          value={types}
+          onChange={(e: any) => {
+            handleTypes(e);
+            setTypes(e.target.value);
+          }}
+        >
           <option value="" disabled selected hidden>
             Types
           </option>
@@ -57,15 +69,9 @@ function App() {
           <option value={"Adventure"}>Adventure</option>
           <option value={"Magic"}>Magic</option>
           <option value={"Crime"}>Crime</option>
-        </select>
-        <select className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium">
-          <option value="" disabled selected hidden>
-            Priority
-          </option>
-          <option value={"High"}>High</option>
-          <option value="Low">Low</option>
-          <option value={"Medium"}>Medium</option>
-        </select>
+        </select> */}
+        <Priority />
+
         <select className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium">
           <option value="" disabled selected hidden>
             Dates
