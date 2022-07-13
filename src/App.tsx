@@ -1,12 +1,33 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import "./App.css";
+import { useQuery, gql } from "@apollo/client";
 import { ReactComponent as Glass } from "./assets/glass.svg";
 import { ReactComponent as Funnel } from "./assets/funnel.svg";
 import UserImg from "./assets/userImg.png";
 
 function App() {
   const [filter, setFilter] = React.useState("");
+  const [books, setBooks] = React.useState<any>();
+  const GET_BOOKS = gql`
+    query {
+      books {
+        id
+        name
+        author {
+          id
+        }
+        releaseDate
+        priority
+        authorName
+        type
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(GET_BOOKS);
+  console.log(data?.books);
+
   const searchBar = () => {
     return (
       <div className="relative w-3/4 pt-8">
@@ -55,34 +76,58 @@ function App() {
   const dataCard = () => {
     return (
       <>
-        <div className="w-36 h-11 lg:flex lg:flex-row lg:items-center lg:justify-between rounded-md bg-[#0F1642] px-4 mt-8 cursor-pointer py-4 text-center">
-          <h6 className="font-medium text-white text-sm font-Jarkata_Medium">
-            Tue,2nd-2022{" "}
-          </h6>
-        </div>
-        <div className="bg-white w-1/3 rounded-xl shadow-lg shadow-indigo-500/40 py-7 mt-4 border-solid border-black">
-          <div className="flex flex-row px-8 space-x-8">
-            <img
-              src={UserImg}
-              className="h-20 w-20 rounded-2xl"
-              alt="user image"
-            />
-            <div className="flex flex-col space-y-0">
-              <div className="flex flex-row space-x-1">
-                <span className="font-Poppins_Regular">Name:</span>
-                <span className="font-Poppins_Regular">Jane Doe</span>
-              </div>
-              <div className="flex flex-row space-x-1">
-                <span className="font-Poppins_Regular">Status:</span>
-                <span className="font-Poppins_Regular">Closed</span>
-              </div>
-              <div className="flex flex-row space-x-1">
-                <span className="italic font-Poppins_Regular">Priority:</span>
-                <span className="font-Poppins_Regular">Low</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {data?.books &&
+          data?.books.map((i: any) => {
+            return (
+              <>
+                <div
+                  className="w-36 h-11 lg:flex lg:flex-row lg:items-center lg:justify-between rounded-md bg-[#0F1642] px-4 mt-8 cursor-pointer py-4 text-center"
+                  key={i.id}
+                >
+                  <h6 className="font-medium text-white text-sm font-Jarkata_Medium">
+                    {i.releaseDate}
+                  </h6>
+                </div>
+                <div className="bg-white w-2/3 rounded-xl shadow-lg shadow-indigo-500/40 py-7 mt-4 border-solid border-black">
+                  <div className="flex flex-row px-8 space-x-8">
+                    <img
+                      src={UserImg}
+                      className="h-20 w-20 rounded-2xl"
+                      alt="user image"
+                    />
+                    <div className="flex flex-col space-y-0">
+                      <div className="flex flex-row space-x-1">
+                        <span className="font-Poppins_Regular">
+                          Author Name:
+                        </span>
+                        <span className="font-Poppins_Regular">
+                          {i.authorName}
+                        </span>
+                      </div>
+                      <div className="flex flex-row space-x-1">
+                        <span className="font-Poppins_Regular">Title:</span>
+                        <span className="font-Poppins_Regular">{i.name}</span>
+                      </div>
+                      <div className="flex flex-row space-x-1">
+                        <span className="italic font-Poppins_Regular">
+                          Type:
+                        </span>
+                        <span className="font-Poppins_Regular">{i.type}</span>
+                      </div>
+                      <div className="flex flex-row space-x-1">
+                        <span className="italic font-Poppins_Regular">
+                          Priority:
+                        </span>
+                        <span className="font-Poppins_Regular">
+                          {i.priority}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
       </>
     );
   };
