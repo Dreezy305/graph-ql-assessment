@@ -10,8 +10,7 @@ import Types from "./components/Types";
 
 function App() {
   const [filter, setFilter] = React.useState("");
-  const [priority, setPriority] = React.useState<string>("");
-  const [types, setTypes] = React.useState<string>("");
+  const [book, setBook] = React.useState<any>();
 
   const GET_BOOKS = gql`
     query {
@@ -29,8 +28,27 @@ function App() {
     }
   `;
 
+  React.useEffect(() => {
+    getBook();
+  });
+
   const { loading, error, data } = useQuery(GET_BOOKS);
-  console.log(data?.books);
+  const getBook = async () => {
+    setBook(data);
+  };
+
+  console.log(book?.books, "km");
+
+  const getData = (data: any) => {
+    let dataArr = [];
+    dataArr.push(data);
+  };
+
+  const getDataFromPriority = (data: any) => {
+    let dataArr = [];
+    dataArr.push(data);
+    console.log(dataArr);
+  };
 
   const searchBar = () => {
     return (
@@ -52,26 +70,8 @@ function App() {
   const filterSelectors = () => {
     return (
       <div className="flex flex-row space-x-7 items-center mt-8">
-        <Types />
-        {/* <select
-          className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium"
-          value={types}
-          onChange={(e: any) => {
-            handleTypes(e);
-            setTypes(e.target.value);
-          }}
-        >
-          <option value="" disabled selected hidden>
-            Types
-          </option>
-          <option value={"Horror"}>Horror</option>
-          <option value={"Drama"}>Drama</option>
-          <option value={"Adventure"}>Adventure</option>
-          <option value={"Magic"}>Magic</option>
-          <option value={"Crime"}>Crime</option>
-        </select> */}
-        <Priority />
-
+        <Types getData={getData} />
+        <Priority getData={getDataFromPriority} />
         <select className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium">
           <option value="" disabled selected hidden>
             Dates
@@ -84,68 +84,63 @@ function App() {
   const dataCard = () => {
     return (
       <>
-        {data?.books &&
-          data?.books.map((i: any) => {
-            return (
-              <>
-                <div
-                  className="w-36 h-11 lg:flex lg:flex-row lg:items-center lg:justify-between rounded-md bg-[#0F1642] px-4 mt-8 cursor-pointer py-4 text-center"
-                  key={i.id}
-                >
-                  <h6 className="font-medium text-white text-sm font-Jarkata_Medium">
-                    {i.releaseDate}
-                  </h6>
-                </div>
-                <div className="bg-white w-2/3 rounded-xl shadow-lg shadow-indigo-500/40 py-7 mt-4 border-solid border-black">
-                  <div className="flex flex-row px-8 space-x-8">
-                    <img
-                      src={UserImg}
-                      className="h-20 w-20 rounded-2xl"
-                      alt="user image"
-                    />
-                    <div className="flex flex-col space-y-0">
-                      <div className="flex flex-row space-x-1">
-                        <span className="font-Poppins_Regular">
-                          Author Name:
-                        </span>
-                        <span className="font-Poppins_Regular">
-                          {i.authorName}
-                        </span>
-                      </div>
-                      <div className="flex flex-row space-x-1">
-                        <span className="font-Poppins_Regular">Title:</span>
-                        <span className="font-Poppins_Regular">{i.name}</span>
-                      </div>
-                      <div className="flex flex-row space-x-1">
-                        <span className="italic font-Poppins_Regular">
-                          Type:
-                        </span>
-                        <span className="font-Poppins_Regular">{i.type}</span>
-                      </div>
-                      <div className="flex flex-row space-x-1">
-                        <span className="italic font-Poppins_Regular">
-                          Priority:
-                        </span>
-                        <span
-                          className={`font-Poppins_Regular ${
-                            i.priority === "Low"
-                              ? "text-[#ef4444]"
-                              : i.priority === "Medium"
-                              ? "text-[#fb923c]"
-                              : i.priority === "High"
-                              ? "text-[#15803d]"
-                              : "text-blue-400"
-                          }`}
-                        >
-                          {i.priority}
-                        </span>
-                      </div>
+        {book?.books.map((i: any) => {
+          return (
+            <>
+              <div
+                className="w-36 h-11 lg:flex lg:flex-row lg:items-center lg:justify-between rounded-md bg-[#0F1642] px-4 mt-8 cursor-pointer py-4 text-center"
+                key={i.id}
+              >
+                <h6 className="font-medium text-white text-sm font-Jarkata_Medium">
+                  {i.releaseDate}
+                </h6>
+              </div>
+              <div className="bg-white w-2/3 rounded-xl shadow-lg shadow-indigo-500/40 py-7 mt-4 border-solid border-black">
+                <div className="flex flex-row px-8 space-x-8">
+                  <img
+                    src={UserImg}
+                    className="h-20 w-20 rounded-2xl"
+                    alt="user image"
+                  />
+                  <div className="flex flex-col space-y-0">
+                    <div className="flex flex-row space-x-1">
+                      <span className="font-Poppins_Regular">Author Name:</span>
+                      <span className="font-Poppins_Regular">
+                        {i.authorName}
+                      </span>
+                    </div>
+                    <div className="flex flex-row space-x-1">
+                      <span className="font-Poppins_Regular">Title:</span>
+                      <span className="font-Poppins_Regular">{i.name}</span>
+                    </div>
+                    <div className="flex flex-row space-x-1">
+                      <span className="italic font-Poppins_Regular">Type:</span>
+                      <span className="font-Poppins_Regular">{i.type}</span>
+                    </div>
+                    <div className="flex flex-row space-x-1">
+                      <span className="italic font-Poppins_Regular">
+                        Priority:
+                      </span>
+                      <span
+                        className={`font-Poppins_Regular ${
+                          i.priority === "Low"
+                            ? "text-[#ef4444]"
+                            : i.priority === "Medium"
+                            ? "text-[#fb923c]"
+                            : i.priority === "High"
+                            ? "text-[#15803d]"
+                            : "text-blue-400"
+                        }`}
+                      >
+                        {i.priority}
+                      </span>
                     </div>
                   </div>
                 </div>
-              </>
-            );
-          })}
+              </div>
+            </>
+          );
+        })}
       </>
     );
   };

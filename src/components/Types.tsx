@@ -1,7 +1,7 @@
 import React from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 
-function Types() {
+function Types({ ...rest }) {
   const [types, setTypes] = React.useState<string>("");
   const FILTER_BY_TYPES = gql`
     query FeedSearchQuery($type: String!) {
@@ -18,14 +18,17 @@ function Types() {
   `;
   const [executeSearch, { data }] = useLazyQuery(FILTER_BY_TYPES);
 
-  console.log(data, "jnm2");
+  const getData = () => {
+    rest.getData(data);
+  };
 
-  const handleTypes = (e: any) => {
+  const handleTypes = async (e: any) => {
     const value = e.target.value;
     if (value !== "") {
       executeSearch({
         variables: { type: value },
       });
+      getData();
     }
   };
 
@@ -33,7 +36,7 @@ function Types() {
     <select
       className="w-24 h-9 rounded-md border-solid border-black outline-none px-1 font-Jarkata_Medium"
       value={types}
-      onChange={(e: any) => {
+      onChange={async (e: any) => {
         handleTypes(e);
         setTypes(e.target.value);
       }}
